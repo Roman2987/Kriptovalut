@@ -2,10 +2,11 @@ import requests
 import json
 from tkinter import *
 from tkinter import messagebox as mb
+from tkinter import ttk
 
 
 def exchange():
-    code = entry.get()
+    code = combobox.get()
 
     if code:
         try:
@@ -14,7 +15,7 @@ def exchange():
             data = response.json()
             if code in data:
                 exchange_rate = data[code]
-                mb.showinfo("Курс обмена криптовалюты", f"Курс: {exchange_rate} {code} за 1 доллар")
+                mb.showinfo("Курс обмена криптовалюты", f"Курс: {exchange_rate} за 1 {code} ")
             else:
                 mb.showerror("Ошибка!", f"криптовалюта {code} не найдена")
         except Exception as e:
@@ -27,10 +28,13 @@ window = Tk()
 window.title("Курсы обмена криптовалют")
 window.geometry("360x300")
 
-Label(text="Введите код криптовалюты").pack(padx=10, pady=10)
+Label(text="Выберите код криптовалюты").pack(padx=10, pady=10)
+cur = ['bitcoin', 'ripple', 'solana', 'tether', 'tron', 'cardano', 'dai', 'kaspa', 'pepe', 'litecoin']
+combobox = ttk.Combobox(values=cur)
+combobox.pack(padx=10, pady=10)
 
-entry = Entry()
-entry.pack(padx=10, pady=10)
+#entry = Entry()
+#entry.pack(padx=10, pady=10)
 
 Button(text="Получить курс обмена к доллару", command=exchange).pack(padx=10, pady=10)
 
